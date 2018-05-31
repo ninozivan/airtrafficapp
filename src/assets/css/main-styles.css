@@ -1,0 +1,22 @@
+body {
+  background-color: #f00;
+}
+/* #region Vue JS animation classes */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+/* #endregion Vue JS animation classes */
+.n-modal-wrapper {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+}
