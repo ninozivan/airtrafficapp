@@ -17,19 +17,14 @@
 <script>
 export default {
   name: 'OverlayLoader',
-  data() {
-    return {
-      msg: 'Welcome to Your Vue.js App'     
-    }
-  },
   created: function () {
-    console.log('--created--OverlayLoader')
+    // console.log('--created--OverlayLoader')
   },
   mounted: function () {
-    console.log('--mounted--OverlayLoader')
+    // console.log('--mounted--OverlayLoader')
   },
   destroyed: function () {
-    console.log('--destroyed--OverlayLoader')
+    // console.log('--destroyed--OverlayLoader')
   }    
 }
 </script>

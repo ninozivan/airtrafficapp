@@ -238,6 +238,7 @@ body{
     min-width: 200px;
     font-size: 18px;
     font-weight: bold;
+    transition: all 0.5s ease;
     &:hover{
         color: @col-primary;
     }
@@ -252,7 +253,7 @@ body{
         background-color: @col-primary;
         color: @col-white;
         &:hover{
-            background-color: darken(@col-primary, 5%);
+            background-color: darken(@col-primary, 8%);
         }        
     }    
     &.n-btn-lg{
@@ -283,6 +284,23 @@ body{
         padding: 8px 10px;
         font-size: 18px;
         color: @col-dark;
+        .n-company-logo-wrapper{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+            position: relative;
+            float: left;
+            margin-right: 10px;
+            > img{
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                top: 50%;
+                left: 50%;
+                .mx-transform-translate(-50%, -50%);
+            }
+        }
     }
 }
 /* #endregion Forms */
@@ -571,6 +589,7 @@ body{
         .mx-border-radius(3px);
         .mx-items-box-shadow();
         background-color: @col-white;
+        transition: all 0.3s ease;
         margin-bottom: 3px;
         cursor: pointer;
         box-sizing: border-box;
@@ -580,9 +599,10 @@ body{
             .mx-transform-translate(0, -50%);
             right: 10px;
             color: lighten(@col-dark, 50%);
+            transition: all 0.3s ease;
         }
         &:hover{
-            background-color: lighten(@col-primary, 32%);
+            background-color: lighten(@col-primary, 30%);
             .n-has-info-icon{
                 color: @col-primary;
             }
@@ -615,14 +635,16 @@ body{
                                 }
                                 //flight to west
                                 &.n-to-west{
-                                    transform: rotate(45deg);
+                                    transform: rotate(-135deg);
+                                    background-color: #4db8f7;                                    
                                     .fa{
                                         visibility: visible;
                                     }
                                 }
                                 //flight to east
                                 &.n-to-east{
-                                    transform: rotate(-135deg);
+                                    transform: rotate(45deg);
+                                    background-color: #fbb382;   
                                     .fa{
                                         visibility: visible;
                                     }

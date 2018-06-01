@@ -351,6 +351,7 @@ body {
   min-width: 200px;
   font-size: 18px;
   font-weight: bold;
+  transition: all 0.5s ease;
 }
 .n-btn:hover {
   color: #5566ff;
@@ -367,7 +368,7 @@ body {
   color: #fff;
 }
 .n-btn.n-btn-primary:hover {
-  background-color: #3b4fff;
+  background-color: #2c41ff;
 }
 .n-btn.n-btn-lg {
   padding: 12px 50px;
@@ -407,6 +408,25 @@ body {
   padding: 8px 10px;
   font-size: 18px;
   color: #4b4e59;
+}
+.n-form-group .n-form-control .n-company-logo-wrapper {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+  float: left;
+  margin-right: 10px;
+}
+.n-form-group .n-form-control .n-company-logo-wrapper > img {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 /* #endregion Forms */
 /* #region Global Classes */
@@ -727,6 +747,7 @@ body {
   -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
   background-color: #fff;
+  transition: all 0.3s ease;
   margin-bottom: 3px;
   cursor: pointer;
   box-sizing: border-box;
@@ -739,9 +760,10 @@ body {
   transform: translate(0, -50%);
   right: 10px;
   color: #cecfd5;
+  transition: all 0.3s ease;
 }
 .n-traffic-list-wrapper > .n-has-flight-item:hover {
-  background-color: #f8f9ff;
+  background-color: #eef0ff;
 }
 .n-traffic-list-wrapper > .n-has-flight-item:hover .n-has-info-icon {
   color: #5566ff;
@@ -782,13 +804,15 @@ body {
   visibility: hidden;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-west {
-  transform: rotate(45deg);
+  transform: rotate(-135deg);
+  background-color: #4db8f7;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-west .fa {
   visibility: visible;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-east {
-  transform: rotate(-135deg);
+  transform: rotate(45deg);
+  background-color: #fbb382;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-east .fa {
   visibility: visible;

@@ -13,21 +13,17 @@
           <!-- Text -->
           <p>This application <b>requires the use of location services, please enable it on your browser</b> in order to use this application.</p>
         </div>
-        <!-- Action button -->
-        <!-- <button class="n-btn n-btn-success n-btn-lg n-m-top-60">Let’s do it</button> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+/*
+  This view is used to inform user that we need him to enable us access to geolocation in order to run applicaiton
+ */
 export default {
   name: 'WelcomeScreen',
-  data() {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
   created: function () {
     console.log('--created--WelcomeScreen')
   },
@@ -42,18 +38,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-} */
 </style>

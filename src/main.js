@@ -13,12 +13,6 @@ import './assets/css/main-styles.css'
 import './assets/css/font-awesome.css'
 
 Vue.config.productionTip = false;
-Vue.config.errorHandler = function (err, vm, info) {
-  // handle error
-  // `info` is a Vue-specific error info, e.g. which lifecycle hook
-  // the error was found in. Only available in 2.2.0+
-  console.log('!!!!!!!!!!Global Erro handling: ' + err)
-}
 
 /* eslint-disable no-new */
 new Vue({

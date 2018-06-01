@@ -20,16 +20,19 @@
 </template>
 
 <script>
+/*
+  We want to show message to user when his browser don't support Geolocation
+ */
 export default {
   name: 'BrowserNotSupported',
   created: function () {
-    console.log('--created--BrowserNotSupported')
+    // console.log('--created--BrowserNotSupported')
   },
   mounted: function () {
-    console.log('--mounted--BrowserNotSupported')
+    // console.log('--mounted--BrowserNotSupported')
   },
   destroyed: function () {
-    console.log('--destroyed--BrowserNotSupported')
+    // console.log('--destroyed--BrowserNotSupported')
   }   
 }
 </script>

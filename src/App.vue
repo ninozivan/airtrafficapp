@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- Container for all views -->
     <router-view></router-view>
     <!-- Modal Templates -->
     <transition name="fade" mode="out-in">
@@ -15,16 +16,20 @@
 import OverlayLoader from '@/components/modals/OverlayLoader';
 import ModalBrowserNotSupported from '@/components/modals/ModalBrowserNotSupported';
 import ModalGeoPermissionDenied from '@/components/modals/ModalGeoPermissionDenied';
+import ModalError from '@/components/modals/ModalError';
 export default {
   name: 'App',
   components: {
     OverlayLoader: OverlayLoader,
     ModalBrowserNotSupported: ModalBrowserNotSupported,
-    ModalGeoPermissionDenied: ModalGeoPermissionDenied
+    ModalGeoPermissionDenied: ModalGeoPermissionDenied,
+    ModalError: ModalError
   },   
   data(){
     return {
       geoCheckInterval: null,
+      //watch instance for geolocation
+      watchGeoPosition: null,
       // ~ for showing modal
       modalComponent: {
         isVisible: true,
@@ -35,64 +40,57 @@ export default {
   methods: {
     //Once application is started we want to check if geolocation is SUPPORTED
     checkForAppRunConditions: function () {
-      console.log('check if current browser supports geolocation');
       if (navigator.geolocation) {
-        console.log('geo location SUPPORTED');
-        //call function to update location
+        //call function to update geolocation based on user data
         this.updateUserGeolocationInfo();
-        //
       } else {
-        console.log("geo location NOT SUPPORTED");
-        //since geolocation is not supported we will clear interval for checking geolocation on every 1 min
-        clearInterval(this.geoCheckInterval);
         //and show modal with message that users browser is not supported
         this.toggleModal(true, ModalBrowserNotSupported);
       }
     },
-    ////
+    //function that will initialize update of users current location
     updateUserGeolocationInfo: function () {
-      navigator.geolocation.getCurrentPosition(this.getLocationInfo, this.handleLocationError, { timeout: 5000 });      
+      var options = {timeout:3000};
+      //get user location and use 'getLocationInfo' for success or 'handleLocationError' for errors (we have set 5s timeout to allow getting data)
+      this.watchGeoPosition = navigator.geolocation.watchPosition(this.getLocationInfo, this.handleLocationError, options);
     },
+    //SUCCESS function for getting geolocation
     getLocationInfo: function (position) {
       //since we have geolocation data, we can close loading modal
       this.toggleModal(false, null);
-      //
-      const lng = position.coords.longitude;
-      const lat = position.coords.latitude;
+      //prepare data that will be saved at Vuex store variable 'vuexStoredGeoData'
       const geoData = {
         geoErrorStatus: null,
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude
+        //if ternary conditions are met, longitude will take 'position.coords.longitude' value, otherwise 'null'
+        longitude: (position && position.coords && position.coords.longitude) ? position.coords.longitude : null,
+        latitude: (position && position.coords && position.coords.latitude) ? position.coords.latitude : null
       }
-      console.log(`longitude: ${lng} | latitude: ${lat}`);
-      console.log('111 store.state.vuexStoredGeoData: ' + this.$store.state.vuexStoredGeoData);
+      //after we prepared data, we can save it to Vuex store variable 'vuexStoredGeoData' 
       this.$store.commit('setNewGeolocationData', geoData);
-      console.log('222 store.state.vuexStoredGeoData: ' + JSON.stringify(this.$store.state.vuexStoredGeoData, null, 2));
-      this.$router.replace('list-of-air-traffic');
+      //since all data are available, we can move to view with list of air traffic
+      //we will call route change ONLY when we are NOT ALREADY ON 'list-of-air-traffic' route
+      if (this.$route.path != 'list-of-air-traffic'){
+        this.$router.replace('list-of-air-traffic');
+      }
     },
+    //ERROR function for getting geolocation
     handleLocationError: function (error) {
       //since we have error, we can close loading modal
       this.toggleModal(false, null);
       switch (error.code) {
-        //PositionError.TIMEOUT = 3;
         case 3:
+          //PositionError.TIMEOUT = 3;
           // timeout was hit, meaning nothing's in the cache
-          // let's provide a default location:
-          //this.getLocationInfo({ coords: { longitude: 33.631839, latitude: 27.380583 } });
-          // now let's make a non-cached request to get the actual position
-          //navigator.geolocation.getCurrentPosition(getLocationInfo, handleLocationError);
-          console.log('eror code: ' + error.code + ', error msg: ' + error.message);
+          //we want to tell user that he must enable geolocation to use our application
           this.$router.replace('welcome-screen');
           break;
-        //PositionError.POSITION_UNAVAILABLE = 2;
         case 2:
-          // ...
-          console.log('eror code: ' + error.code + ', error msg: ' + error.message);
+          //PositionError.POSITION_UNAVAILABLE = 2;
+          this.toggleModal(true, ModalError);
           break;
-        //PositionError.PERMISSION_DENIED = 1;
         case 1:
-        // ...
-          console.log('eror code: ' + error.code + ', error msg: ' + error.message);
+          //PositionError.PERMISSION_DENIED = 1;
+          //user denied access to use, so we need to show message why he won't be able to use application
           this.toggleModal(true, ModalGeoPermissionDenied);
           break;
       }
@@ -109,25 +107,15 @@ export default {
     }    
   },  
   created: function () {
-    console.log('--created--RootApp')
+    // console.log('--created--RootApp')
   },
   mounted: function () {
-    console.log('--mounted--RootApp');
+    // console.log('--mounted--RootApp');
+    //when application is mounted, we can initialize geolocation request
     this.checkForAppRunConditions();
-    this.geoCheckInterval = setInterval(function(){ 
-      this.checkForAppRunConditions();  
-    }.bind(this), 10000);
   }
 }
 </script>
 
 <style>
-/* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
 </style>

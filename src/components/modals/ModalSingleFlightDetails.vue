@@ -6,7 +6,7 @@
         <!-- Title -->
         <div class="n-aligned-title">
           <i class="fa fa-plane" aria-hidden="true"></i>&nbsp;
-          <span v-if="selectedAirplaneData && selectedAirplaneData.Icao"><b>{{selectedAirplaneData.Icao}}</b></span>
+          <span v-if="selectedAirplaneData && selectedAirplaneData.Icao">Flight Number: <b>{{selectedAirplaneData.Icao}}</b></span>
         </div>
         <!-- Close button -->
         <button class="n-btn n-close-btn" v-on:click="closeModal"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;</button>
@@ -68,6 +68,9 @@
             <div class="n-form-group">
               <label>Airline company</label>
               <div class="n-form-control">
+                <div class="n-company-logo-wrapper">
+                  <img v-bind:src="sourceForAirlineCompanyLogo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/c/ce/Example_image.png'">
+                </div>
                 <span v-if="selectedAirplaneData.Op">{{selectedAirplaneData.Op}}</span>
                 <span v-else>--</span>                  
               </div>
@@ -86,24 +89,42 @@
 </template>
 
 <script>
+/*
+  This view will show wanted details about selected flight
+ */
 export default {
   name: 'ModalSingleFlightDetails',
   props: ['inputModalData'],
   data() {
     return {
+      //variable that will keep data for selected airplane
       selectedAirplaneData: null
     }
   },
+  computed: {
+    //calculate logo for selected airplane company (if applicable)
+    sourceForAirlineCompanyLogo: function () {
+      //use clearbit api to retreive logo
+      let baseUrl = "//logo.clearbit.com/";
+      //get company name from selected airplane data
+      let companyName = this.selectedAirplaneData && this.selectedAirplaneData.Op ? this.selectedAirplaneData.Op : 'xxxxx';
+      //create full src string
+      let fullSrc =  baseUrl + companyName.replace(/\s+/g, '').toLowerCase() + '.com';
+      //
+      return fullSrc;
+    }
+  },  
   methods: {
     closeModal: function (){
+      //close this modal and return 'reject' to "ListOfAirTraffic.vue" (inside 'openSingleAirplaneDetails' function)
       this.reject();
     }
   },
   created: function () {
-    console.log('--created--ModalSingleFlightDetails')
     if (this.inputModalData){
+      //check for selected airplane data sent from ListOfAirTraffic.vue (inside "openModal_AirplaneDetails" function)
       if (this.inputModalData.selectedAirplaneObject){        
-        console.log('selectedAirplaneObject: ' + JSON.stringify(this.inputModalData.selectedAirplaneObject, null, 2));
+        //set data for selected airplane
         this.selectedAirplaneData = this.inputModalData.selectedAirplaneObject;
       }
       this.resolve = this.inputModalData.resolve;
@@ -111,10 +132,10 @@ export default {
     }    
   },
   mounted: function () {
-    console.log('--mounted--ModalSingleFlightDetails')
+    // console.log('--mounted--ModalSingleFlightDetails')
   },
   destroyed: function () {
-    console.log('--destroyed--ModalSingleFlightDetails')
+    // console.log('--destroyed--ModalSingleFlightDetails')
   }    
 }
 </script>

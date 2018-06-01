@@ -20,16 +20,19 @@
 </template>
 
 <script>
+/*
+  This view will show message to user that he denied us acces to geolocation
+ */
 export default {
   name: 'ModalGeoPermissionDenied',
   created: function () {
-    console.log('--created--ModalGeoPermissionDenied')
+    // console.log('--created--ModalGeoPermissionDenied')
   },
   mounted: function () {
-    console.log('--mounted--ModalGeoPermissionDenied')
+    // console.log('--mounted--ModalGeoPermissionDenied')
   },
   destroyed: function () {
-    console.log('--destroyed--ModalGeoPermissionDenied')
+    // console.log('--destroyed--ModalGeoPermissionDenied')
   }  
 }
 </script>
