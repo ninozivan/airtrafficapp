@@ -149,7 +149,7 @@ body{
     .mx-clear-fix();
     //margin: 0 -5px;
     //.n-single-column
-    > div[class*="nb-col-"]{
+    > div[class*="n-col-"]{
         min-height: 1px;
         display: inline-block;
         box-sizing: border-box;
@@ -157,13 +157,13 @@ body{
         float: left;
         padding: 0 10px;
         @media only screen and (min-width: @var-breakpoint-start-zero) and (max-width: @var-breakpoint-end-xs)  {
-            &:first-child:not([class*="nb-col-12-xs"]){
+            &:first-child:not([class*="n-col-12-xs"]){
                 padding-left: 0 !important;
             }
-            &:last-child:not([class*="nb-col-12-xs"]){
+            &:last-child:not([class*="n-col-12-xs"]){
                 padding-right: 0 !important;
             }
-            &[class*="nb-col-12-xs"]{
+            &[class*="n-col-12-xs"]{
                 margin-bottom: 15px;
                 &:nth-last-child(1){
                     margin-bottom: 0;
@@ -171,13 +171,13 @@ body{
             }             
         }
         @media only screen and (min-width: @var-breakpoint-start-sm) and (max-width: @var-breakpoint-end-sm)  {
-            &:first-child:not([class*="nb-col-12-sm"]){
+            &:first-child:not([class*="n-col-12-sm"]){
                 padding-left: 0 !important;
             }
-            &:last-child:not([class*="nb-col-12-sm"]){
+            &:last-child:not([class*="n-col-12-sm"]){
                 padding-right: 0 !important;
             }
-            &[class*="nb-col-12-sm"]{
+            &[class*="n-col-12-sm"]{
                 margin-bottom: 15px;
                 &:nth-last-child(1){
                     margin-bottom: 0;
@@ -185,13 +185,13 @@ body{
             }             
         }
         @media only screen and (min-width: @var-breakpoint-start-md) and (max-width: @var-breakpoint-end-md)  {
-            &:first-child:not([class*="nb-col-12-md"]){
+            &:first-child:not([class*="n-col-12-md"]){
                 padding-left: 0 !important;
             }
-            &:last-child:not([class*="nb-col-12-md"]){
+            &:last-child:not([class*="n-col-12-md"]){
                 padding-right: 0 !important;
             }
-            &[class*="nb-col-12-md"]{
+            &[class*="n-col-12-md"]{
                 margin-bottom: 15px;
                 &:nth-last-child(1){
                     margin-bottom: 0;
@@ -199,13 +199,13 @@ body{
             }             
         }
         @media only screen and (min-width: @var-breakpoint-start-lg) {
-            &:first-child:not([class*="nb-col-12-lg"]){
+            &:first-child:not([class*="n-col-12-lg"]){
                 padding-left: 0 !important;
             }
-            &:last-child:not([class*="nb-col-12-lg"]){
+            &:last-child:not([class*="n-col-12-lg"]){
                 padding-right: 0 !important;
             }
-            &[class*="nb-col-12-lg"]{
+            &[class*="n-col-12-lg"]{
                 margin-bottom: 15px;
                 &:nth-last-child(1){
                     margin-bottom: 0;
@@ -404,6 +404,155 @@ body{
     }
 }
 /* #endregion Loader */
+/* #region All Traffic list view */
+.n-traffic-view{
+    z-index: 0;
+    &:before{
+        content: "";
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        height: 240px;
+        //background-color: @inputBackColor;
+        background-color: @col-primary;
+        z-index: -1;
+        transform: skewY(178deg) scale(1.05);
+    }    
+    > .n-traffic-header{
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        height: @var-modal-header-height;
+        background-color: @col-primary;
+        color: @col-white;
+        text-align: center;
+        z-index: 10;
+        .n-logo-img{
+            margin-top: 12px;
+            width: auto;
+            height: 22px;
+        }
+    }
+    > .n-traffic-body{
+        padding-top: @var-modal-header-height + 20px;
+    }
+}
+.mx-items-box-shadow(){
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25);
+}
+.n-traffic-list-wrapper{
+    > .n-has-descriptions{
+        display: block;
+        font-size: 10px;
+        color: @col-white;
+        .mx-border-radius(3px);
+        .mx-items-box-shadow();
+        > table{
+            width: 100%;
+            > tbody{
+                > tr{
+                    > td{
+                        padding: 4px 5px;
+                    }
+                }
+            }
+        }            
+    }
+    > .n-has-flight-item{
+        display: block;
+        position: relative;
+        .mx-border-radius(3px);
+        .mx-items-box-shadow();
+        background-color: @col-white;
+        margin-bottom: 3px;
+        .n-has-info-icon{
+            position: absolute;
+            top: 50%;
+            .mx-transform-translate(0, -50%);
+            right: 10px;
+            color: lighten(@col-dark, 50%);
+        }
+        > table{
+            width: 100%;
+            > tbody{
+                > tr{
+                    > td{
+                        padding: 4px 5px;
+                        vertical-align: middle;
+                        text-align: left;
+                        font-size: 18px;
+                        .n-flight-direction-wrap{
+                            display: inline-block;
+                            > .n-has-circle-icon{
+                                display: block;
+                                position: relative;
+                                width: 30px;
+                                height: 30px;
+                                .mx-border-radius(50%);
+                                background-color: lighten(@col-primary, 20%);
+                                color: @col-primary;
+                                .fa{
+                                    position: absolute;
+                                    top: 53%;
+                                    left: 50%;
+                                    .mx-transform-translate(-50%, -50%);
+                                }
+                                //flight to west
+                                &.n-to-west{
+                                    transform: rotate(45deg);
+                                }
+                                //flight to east
+                                &.n-to-east{
+                                    transform: rotate(-135deg);
+                                }                                
+                            }
+                            > .n-has-direction{
+                                display: block;
+                                margin-top: 5px;
+                                text-align: center;
+                                font-size: 7px;
+                                color: @col-dark;
+                                text-transform: uppercase;
+                            }
+                        }
+                        &.n-has-altitude{
+                            color: @col-primary;
+                        }
+                        &.n-has-flight-code{
+                            color: @col-dark;
+                        }                        
+                    }
+                }
+            }
+        }
+        //last item will have message and bottom margin
+        &:last-child{
+            margin-bottom: 30px;
+            position: relative;
+            &:before{
+                content: "End of the list";
+                display: block;
+                padding: 3px 10px;
+                font-size: 8px;
+                background-color: @col-white;
+                color: @col-primary;
+                position: absolute;
+                bottom: -20px;
+                left: 0;
+
+            }
+        }
+    }
+}
+/* #endregion All Traffic list view */
 /* #region Vue JS animation classes */
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;

@@ -6,6 +6,7 @@ import router from './router'
 import store from './store';
 /* import styles */
 import './assets/css/main-styles.css'
+import './assets/css/font-awesome.css'
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = function (err, vm, info) {
