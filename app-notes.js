@@ -29,9 +29,12 @@
     1. use Chrome
     2. install extension "Allow-Control-Allow-Origin" for Chrome and activate it
     3. then you can bypass "ADS-B Exchange" API CORS security and then you can read data
+    4. using terminal (cmd prompt), navigate to root folder and type 'npm install' to install required modules
+    5. after instalation is finished you can run it by typing 'npm run dev' in terminal
+    6. then you can type "http://localhost:8080" in your browser and application should be available
         
     Othewise, you need to upload files from 'dist' folder to your server, but you must have https;
 
     If you don't have any other options, you can use json 'temp-response-from-adsbexchange.js' and try to read data from it.
-    
+
 */
