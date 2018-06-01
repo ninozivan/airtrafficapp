@@ -1,5 +1,5 @@
 <template>
-  <div class="n-traffic-view">
+  <div class="n-traffic-view" v-bind:class="{'n-block-scroll': modalComponent.isVisible }">
     <!-- Header -->
     <div class="n-traffic-header">
       <div class="n-responsive-container">
@@ -9,7 +9,7 @@
     <!-- Body -->
     <div class="n-traffic-body">
       <!-- Show list of traffic if available -->
-      <div class="n-responsive-container" v-if="listOfAvailableTraffic">
+      <div class="n-responsive-container" v-if="sortedTrafficList && sortedTrafficList.length > 0">
         <!-- List with all traffic available -->
         <div class="n-traffic-list-wrapper">
           <!-- Column description -->
@@ -25,7 +25,12 @@
             </table>
           </div>
           <!-- Each item -->
-          <div class="n-has-flight-item" v-for="(singleAirplane, index) in listOfAvailableTraffic" v-bind:key="index" v-if="singleAirplane">
+          <div class="n-has-flight-item" 
+            v-for="(singleAirplane, index) in sortedTrafficList" 
+            v-bind:key="index" 
+            v-if="singleAirplane"
+            v-on:click="openSingleAirplaneDetails(singleAirplane)"
+            >
             <table>
               <tbody>
                 <tr>
@@ -45,13 +50,54 @@
         </div>
       </div>
       <!-- Show no content message if needed -->
-      <div v-else>No content available</div>
+      <div v-else class="n-no-content-for-traffic-list">
+        <img src="@/assets/img/emo-info.png" alt="Nothing to show" />
+        <p>Hmm.. We don't have anything to show you.<br/>Check your location and radius (search radius for planes around your location)</p>
+        <table>
+          <thead>
+            <tr>
+              <th colspan="2">Current search settings:</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Your Latitude:</td>
+              <td>
+                <span v-if="userLatitude === undefined || userLatitude === null || userLatitude === ''">--</span>
+                <span v-else>{{userLatitude}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Your Longitude:</td>
+              <td>
+                <span v-if="userLongitude === undefined || userLongitude === null || userLongitude === ''">--</span>
+                <span v-else>{{userLongitude}}</span>
+              </td>              
+            </tr>
+            <tr>
+              <td>Starting radius:</td>
+              <td>
+                <span v-if="searchAreaZeroRadius === undefined || searchAreaZeroRadius === null || searchAreaZeroRadius === ''">-- km</span>
+                <span v-else>{{searchAreaZeroRadius}} km</span>
+              </td>
+            </tr> 
+            <tr>
+              <td>Max radius:</td>
+              <td>
+                <span v-if="searchAreaMaxRadius === undefined || searchAreaMaxRadius === null || searchAreaMaxRadius === ''">-- km</span>
+                <span v-else>{{searchAreaMaxRadius}} km</span>
+              </td>              
+            </tr>                         
+          </tbody>
+        </table>
+      </div>
     </div>
     <!-- Modal for single selected Airplane -->
-    <transition name="fade" mode="out-in">
+    <transition name="slide-up" mode="out-in">
       <component 
         v-if="modalComponent.isVisible" 
         v-bind:is="modalComponent.activeModalComponent"
+        v-bind:input-modal-data = "modalComponent.passedDataToModal"
       ></component>
     </transition>    
   </div>
@@ -60,28 +106,52 @@
 <script>
 import axios from 'axios';
 import OverlayLoader from '@/components/modals/OverlayLoader'
-import tempDataJson from '@/temp-response-from-adsbexchange'
+import ModalSingleFlightDetails from '@/components/modals/ModalSingleFlightDetails'
+//import tempDataJson from '@/temp-response-from-adsbexchange'
 export default {
   name: 'ListOfAirTraffic',
   components: {
-    OverlayLoader: OverlayLoader
+    OverlayLoader: OverlayLoader,
+    ModalSingleFlightDetails: ModalSingleFlightDetails
   },    
   data() {
     return {
       listOfAvailableTraffic: null,
+      userLatitude: null,
+      userLongitude: null,
+      searchAreaZeroRadius: 0,
+      searchAreaMaxRadius: 300,
       // ~ for showing modal
       modalComponent: {
         isVisible: false,
-        activeModalComponent: null
+        activeModalComponent: null,
+        passedDataToModal: null
       }
+    }
+  },
+  computed: {
+    sortedTrafficList: function () {
+      // `this` points to the vm instance
+      //return this.message.split('').reverse().join('')
+      return _.orderBy(this.listOfAvailableTraffic, 'Alt', 'desc');       
     }
   },
   methods:{
     ///
     getGeolocation: function () {
+      //show loader
       this.toggleModal(true, OverlayLoader);
+      this.userLatitude = this.$store.state.vuexStoredGeoData.latitude;
+      this.userLongitude = this.$store.state.vuexStoredGeoData.longitude;
+      //create api call with right params
+      let q_baseUrl = "http://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?";
+      let q_userLatitude = "lat=" + this.userLatitude;
+      let q_userLongitude = "&lng=" + this.userLongitude;
+      let q_zeroGroundDistance = "&fDstL=" + this.searchAreaZeroRadius;
+      let q_maxDistanceFromUser = "&fDstU=" + this.searchAreaMaxRadius;
+      let apiCallQueryParams = q_baseUrl + q_userLatitude + q_userLongitude + q_zeroGroundDistance + q_maxDistanceFromUser;
       //http://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?lat=33.433638&lng=-112.008113&fDstL=0&fDstU=100
-      axios.get('http://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?lat=33.433638&lng=-112.008113&fDstL=0&fDstU=100')
+      axios.get(apiCallQueryParams)
       .then(response => {
         // JSON responses are automatically parsed.
         //this.posts = response.data
@@ -102,7 +172,8 @@ export default {
         this.modalComponent.activeModalComponent = nextModalComponent;
       }else{
         this.modalComponent.isVisible = nextWantedState;
-        this.modalComponent.activeModalComponent = null;        
+        this.modalComponent.activeModalComponent = null;
+        this.modalComponent.dataForUseInModal = null;
       }
     },
     ////
@@ -129,14 +200,39 @@ export default {
       }
       return returnText;
     },
+    openSingleAirplaneDetails: function (inputAirplaneObject) {
+      
+    },
+    openSingleAirplaneDetails: function(inputAirplaneObject) {
+      // ~ then we need to show different page with wanted event
+      var promiseFromModal = this.openModal_AirplaneDetails(inputAirplaneObject).then(
+        function(response) {
+          this.toggleModal(false, null);
+        }.bind(this),
+        function(reject) {
+          this.toggleModal(false, null);
+        }.bind(this)
+      );
+    },
+    openModal_AirplaneDetails: function(inputAirplaneObject) {
+      return new Promise((resolve, reject) => {
+        this.modalComponent.passedDataToModal = {
+          selectedAirplaneObject: inputAirplaneObject,
+          resolve: resolve,
+          reject: reject
+        };
+        this.modalComponent.activeModalComponent = ModalSingleFlightDetails;        
+        this.modalComponent.isVisible = true;        
+      });
+    },    
   },
   created: function () {
     console.log('--created--ListOfAirTraffic')
-    this.getGeolocation();
   },
   mounted: function () {
     console.log('--mounted--ListOfAirTraffic');
     //close Loader modal
+    this.getGeolocation();
   },
   destroyed: function () {
     console.log('--destroyed--ListOfAirTraffic')

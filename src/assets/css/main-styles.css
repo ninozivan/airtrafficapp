@@ -245,6 +245,9 @@ body {
   clear: both;
   height: 0;
 }
+.n-grid-row:not(:last-child) {
+  margin-bottom: 15px;
+}
 .n-grid-row > div[class*="n-col-"] {
   min-height: 1px;
   display: inline-block;
@@ -376,6 +379,36 @@ body {
   /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
   border-radius: 30px;
 }
+/* #endregion Buttons */
+/* #region Forms */
+.n-form-group {
+  display: block;
+}
+.n-form-group > label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 7px;
+  color: #5566ff;
+}
+.n-form-group .n-form-control {
+  display: block;
+  width: 100%;
+  /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+  -webkit-border-radius: 3px;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: 3px;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-radius: 3px;
+  background-color: #f4f4f4;
+  min-height: 35px;
+  box-sizing: border-box;
+  border: 1px solid #e7e7e7;
+  box-shadow: none;
+  padding: 8px 10px;
+  font-size: 18px;
+  color: #4b4e59;
+}
+/* #endregion Forms */
 /* #region Global Classes */
 .n-text-center {
   text-align: center;
@@ -408,6 +441,77 @@ body {
   bottom: 0;
   left: 0;
   background-color: rgba(255, 255, 255, 0.9);
+  z-index: 999;
+}
+.n-modal-wrapper.n-full-back {
+  background-color: #fff;
+}
+.n-modal-wrapper > .n-modal-header {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  height: 50px;
+  background-color: #4b4e59;
+  color: #fff;
+  text-align: center;
+  z-index: 10;
+}
+.n-modal-wrapper > .n-modal-header .n-responsive-container {
+  position: relative;
+}
+.n-modal-wrapper > .n-modal-header .n-aligned-title {
+  padding-top: 10px;
+  font-size: 20px;
+  text-align: left;
+}
+.n-modal-wrapper > .n-modal-header .n-aligned-title .fa {
+  font-size: 24px;
+  position: relative;
+  top: 3px;
+}
+.n-modal-wrapper > .n-modal-header .n-close-btn {
+  display: block;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.4;
+  min-width: auto;
+  /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+  -webkit-border-radius: 0;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: 0;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0);
+  color: #fff;
+}
+.n-modal-wrapper > .n-modal-header .n-close-btn .fa {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}
+.n-modal-wrapper > .n-modal-header .n-close-btn:hover {
+  opacity: 1;
+}
+.n-modal-wrapper > .n-modal-body.n-has-header {
+  padding-top: 50px;
+}
+.n-modal-wrapper > .n-modal-body .n-section-title {
+  display: block;
+  background-color: #5566ff;
+  color: #fff;
+  font-size: 11px;
+  padding: 5px 10px;
+  margin: 0 -10px 10px;
 }
 .n-modal-wrapper > .n-modal-footer {
   display: block;
@@ -587,6 +691,9 @@ body {
 .n-traffic-view > .n-traffic-body {
   padding-top: 70px;
 }
+.n-traffic-view.n-block-scroll .n-traffic-body {
+  display: none;
+}
 .n-traffic-list-wrapper > .n-has-descriptions {
   display: block;
   font-size: 10px;
@@ -621,6 +728,8 @@ body {
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
   background-color: #fff;
   margin-bottom: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 .n-traffic-list-wrapper > .n-has-flight-item .n-has-info-icon {
   position: absolute;
@@ -630,6 +739,12 @@ body {
   transform: translate(0, -50%);
   right: 10px;
   color: #cecfd5;
+}
+.n-traffic-list-wrapper > .n-has-flight-item:hover {
+  background-color: #f8f9ff;
+}
+.n-traffic-list-wrapper > .n-has-flight-item:hover .n-has-info-icon {
+  color: #5566ff;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table {
   width: 100%;
@@ -664,12 +779,19 @@ body {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  visibility: hidden;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-west {
   transform: rotate(45deg);
 }
+.n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-west .fa {
+  visibility: visible;
+}
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-east {
   transform: rotate(-135deg);
+}
+.n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-circle-icon.n-to-east .fa {
+  visibility: visible;
 }
 .n-traffic-list-wrapper > .n-has-flight-item > table > tbody > tr > td .n-flight-direction-wrap > .n-has-direction {
   display: block;
@@ -686,7 +808,7 @@ body {
   color: #4b4e59;
 }
 .n-traffic-list-wrapper > .n-has-flight-item:last-child {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   position: relative;
 }
 .n-traffic-list-wrapper > .n-has-flight-item:last-child:before {
@@ -700,6 +822,42 @@ body {
   bottom: -20px;
   left: 0;
 }
+.n-no-content-for-traffic-list {
+  display: block;
+  text-align: center;
+  padding: 0 15px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.n-no-content-for-traffic-list > img {
+  margin-bottom: 15px;
+}
+.n-no-content-for-traffic-list > p {
+  display: block;
+  font-size: 14px;
+  padding: 3px 5px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+  -webkit-border-radius: 3px;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: 3px;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-radius: 3px;
+}
+.n-no-content-for-traffic-list table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.n-no-content-for-traffic-list table > tbody > tr > td,
+.n-no-content-for-traffic-list table > thead > tr > td,
+.n-no-content-for-traffic-list table > tbody > tr > th,
+.n-no-content-for-traffic-list table > thead > tr > th {
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  padding: 5px 8px;
+}
 /* #endregion All Traffic list view */
 /* #region Vue JS animation classes */
 .fade-enter-active,
@@ -709,5 +867,19 @@ body {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.slide-up-enter-active,
+.slide-up-leave-active {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 0;
+  opacity: 1;
+}
+.slide-up-enter,
+.slide-up-leave-to {
+  opacity: 0;
+  margin-top: 200%;
 }
 /* #endregion Vue JS animation classes */

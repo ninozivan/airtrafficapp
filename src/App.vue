@@ -65,9 +65,9 @@ export default {
         latitude: position.coords.latitude
       }
       console.log(`longitude: ${lng} | latitude: ${lat}`);
-      console.log('111 store.state.safelyStoredNumber: ' + this.$store.state.safelyStoredNumber);
+      console.log('111 store.state.vuexStoredGeoData: ' + this.$store.state.vuexStoredGeoData);
       this.$store.commit('setNewGeolocationData', geoData);
-      console.log('222 store.state.safelyStoredNumber: ' + JSON.stringify(this.$store.state.safelyStoredNumber, null, 2));
+      console.log('222 store.state.vuexStoredGeoData: ' + JSON.stringify(this.$store.state.vuexStoredGeoData, null, 2));
       this.$router.replace('list-of-air-traffic');
     },
     handleLocationError: function (error) {
