@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import SplashScreen from '@/components/SplashScreen'
 //Ask for Geolocation screen if user didn't enabled it
-import AskForGeoLocation from '@/components/AskForGeoLocation'
+import WelcomeScreen from '@/components/WelcomeScreen'
 //List with all airplanes in area of users location
 import ListOfAirTraffic from '@/components/ListOfAirTraffic'
-//Details for single airplane
-import SingleAirplaneDetails from '@/components/SingleAirplaneDetails'
 
 Vue.use(Router)
 
@@ -13,27 +12,27 @@ let router = new Router({
   routes: [
     {
       path: '*',
-      redirect: '/list-of-air-traffic'
+      redirect: '/home'
     },
     {
       path: '/',
-      redirect: '/list-of-air-traffic'
+      redirect: '/home'
     },
     {
-      path: '/user-geolocation',
-      name: 'AskForGeoLocation',
-      component: AskForGeoLocation
+      path: '/home',
+      name: 'SplashScreen',
+      component: SplashScreen
+    },    
+    {
+      path: '/welcome-screen',
+      name: 'WelcomeScreen',
+      component: WelcomeScreen
     },
     {
       path: '/list-of-air-traffic',
       name: 'ListOfAirTraffic',
       component: ListOfAirTraffic
-    },
-    {
-      path: '/airplane-details',
-      name: 'SingleAirplaneDetails',
-      component: SingleAirplaneDetails
-    }    
+    }
   ]
 })
 
@@ -45,7 +44,7 @@ router.beforeEach((to, from, next) => {
   let testValue = true;
   if (testValue) {
     console.log('testing check values before each')
-    ///router.push('/user-geolocation');
+    ///router.push('/welcome-screen');
     next();
   }else{
     next();

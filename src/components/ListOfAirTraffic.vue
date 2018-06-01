@@ -12,49 +12,33 @@
 </template>
 
 <script>
-import ModalLoader from '@/components/modals/ModalLoader'
+import OverlayLoader from '@/components/modals/OverlayLoader'
 export default {
   name: 'ListOfAirTraffic',
   components: {
-    ModalLoader: ModalLoader
+    OverlayLoader: OverlayLoader
   },    
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App',
       // ~ for showing modal
       modalComponent: {
         isVisible: true,
-        activeModalComponent: ModalLoader
+        activeModalComponent: OverlayLoader
       }      
     }
   },
   methods:{
-    //get geolocation
-    getGeolocation: function (){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.displayLocationInfo, this.geoError);
-      }
-    },
-    displayLocationInfo: function (position) {
-      console.log('displayLocationInfo')
-      const lng = position.coords.longitude;
-      const lat = position.coords.latitude;
-
-      console.log('longitude: ' + lng + ' | latitude: ' + lat);
-    },
-    geoError: function (err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    },
-    //open/close modal ('wantedState' - true/false = open/close)
-    toggleModal: function (wantedState) {
-      if (wantedState){
-        this.modalComponent.isVisible = wantedState;
-        this.modalComponent.activeModalComponent = ModalLoader;
+    //open/close modal ('nextWantedState' - true/false = open/close, new-modal-component-name)
+    toggleModal: function (nextWantedState, nextModalComponent) {
+      if (nextWantedState){
+        this.modalComponent.isVisible = nextWantedState;
+        this.modalComponent.activeModalComponent = nextModalComponent;
       }else{
-        this.modalComponent.isVisible = wantedState;
+        this.modalComponent.isVisible = nextWantedState;
         this.modalComponent.activeModalComponent = null;        
       }
-    }
+    } 
   },
   created: function () {
     console.log('--created--ListOfAirTraffic')
@@ -63,8 +47,11 @@ export default {
   mounted: function () {
     console.log('--mounted--ListOfAirTraffic');
     //close Loader modal
-    this.toggleModal(false);
-  }   
+    this.toggleModal(false, null);
+  },
+  destroyed: function () {
+    console.log('--destroyed--ListOfAirTraffic')
+  }     
 }
 </script>
 

@@ -1,24 +1,28 @@
 <template>
   <div class="n-modal-wrapper">
+    <!-- Modal Body -->
     <div class="n-modal-body">
-      <h1>Loading Modal right here...</h1>
+      <h1>Modal Error...</h1>
     </div>  
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ModalLoader',
-  data () {
+  name: 'ModalError',
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App'     
     }
   },
   created: function () {
-    console.log('--created--ModalLoader')
+    console.log('--created--ModalError')
   },
   mounted: function () {
-    console.log('--mounted--ModalLoader')
+    console.log('--mounted--ModalError')
+  },
+  destroyed: function () {
+    console.log('--destroyed--ModalError')
   }   
 }
 </script>
